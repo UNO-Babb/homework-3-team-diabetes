@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorry! Board Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        .space {
+            border: 1px solid #333;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            margin: 2px;
+            text-align: center;
+        }
+        .player {
+            font-weight: bold;
+            color: red;
+        }
+        .home {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sorry! Board Game</h1>
+    <div class="board">
+        {% for i, space in enumerate(game_state['board']) %}
+            <div class="space {% if space == 'Home' %}home{% endif %}">
+                {% for player, data in game_state['players'].items() %}
+                    {% if data['position'] == i %}
+                        <span class="player">{{ player }}</span>
+                    {% endif %}
+                {% endfor %}
+                {{ space }}
+            </div>
+        {% endfor %}
+    </div>
+    <h2>Current Turn: {{ game_state['turn'] }}</h2>
+    <h3>Status</h3>
+    <p>Player 1: Position {{ game_state['players']['Player 1']['position'] }}{% if game_state['players']['Player 1']['home'] %} (Home!) {% endif %}</p>
+    <p>Player 2: Position {{ game_state['players']['Player 2']['position'] }}{% if game_state['players']['Player 2']['home'] %} (Home!) {% endif %}</p>
+    <a href="/draw_card">Draw Card</a> | <a href="/reset">Reset Game</a>
+</body>
+</html>
